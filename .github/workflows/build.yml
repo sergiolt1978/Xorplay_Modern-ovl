@@ -1,1 +1,33 @@
+name: Build Tesla Overlay (.ovl)
 
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: devkitpro/devkita64:latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download libtesla
+        run: |
+          git clone https://github.com libs/libtesla
+
+      - name: Compile Overlay
+        run: |
+          make
+          mkdir -p out/switch/.overlays
+          cp *.ovl out/switch/.overlays/ || cp *.nro out/switch/.overlays/xorplay.ovl
+
+      - name: Upload OVL Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: XorPlay-Tesla-Overlay
+          path: out/
+          
