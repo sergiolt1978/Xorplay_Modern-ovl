@@ -11,12 +11,12 @@ SOURCES     := source libs/libtesla/source
 INCLUDES    := include libs/libtesla/include
 ARCH        := -march=armv8-a+crc+crypto -mtune=cortex-a57 -mtp=soft -fPIE
 
-CFLAGS      := -g -Wall -O2 -ffunction-sections $(ARCH) $(DEFINES)
+CFLAGS      := -g -Wall -O2 -ffunction-sections $(ARCH) $(DEFINES) -D__OVL__
 CFLAGS      += $(INCLUDE) -D__SWITCH__
 
 CXXFLAGS    := $(CFLAGS) -fno-exceptions -std=gnu++20
 ASFLAGS     := -g $(ARCH)
-LDFLAGS     = -specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
+LDFLAGS     = -specs=$(CURDIR)/libs/libtesla/ovl.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
 LIBS        := -lnx
 LIBDIRS     := $(LIBNX)
@@ -58,13 +58,11 @@ DEPENDS := $(OFILES:.o=.d)
 
 all: $(OUTPUT).ovl
 
-$(OUTPUT).ovl: $(OUTPUT).nro
-	@cp $(OUTPUT).nro $(OUTPUT).ovl
-
-$(OUTPUT).nro: $(OUTPUT).elf
-	@elf2nro $< $@
+$(OUTPUT).ovl: $(OUTPUT).elf
+	@elf2nro $< $@ --nacp=$(OUTPUT).nacp
 
 $(OUTPUT).elf: $(OFILES)
+	@nacptool --create "XorPlay Modern" "sergiolt1978" "1.0.0" $(OUTPUT).nacp
 	@$(CXX) $(LDFLAGS) $(OFILES) $(LIBPATHS) $(LIBS) -o $@
 
 -include $(DEPENDS)
