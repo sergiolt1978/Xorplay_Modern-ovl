@@ -1,4 +1,3 @@
-
 #define TESLA_INIT_IMPL
 #include <tesla.hpp>
 #include <cstdio>
@@ -6,7 +5,6 @@
 #include <string>
 #include <fstream>
 
-// Envía la orden al sysmodule escribiendo en command.txt
 void sendCommand(const std::string& cmd) {
     FILE* f = fopen("sdmc:/config/xorplay/command.txt", "w");
     if (f) {
@@ -15,7 +13,6 @@ void sendCommand(const std::string& cmd) {
     }
 }
 
-// Lee el estado actual desde status.txt
 std::string readStatus() {
     std::ifstream file("sdmc:/config/xorplay/status.txt");
     if (!file.is_open()) {
@@ -44,14 +41,12 @@ public:
         auto frame = new tsl::elm::OverlayFrame("XorPlay Modern", "Control de musica");
         auto list = new tsl::elm::List();
 
-        // Cuadro informativo con la canción o estado actual
         list->addItem(new tsl::elm::CategoryHeader("Estado actual"));
         list->addItem(new tsl::elm::CustomDrawer([](tsl::gfx::Renderer *renderer, s32 x, s32 y, s32 w, s32 h) {
             std::string st = readStatus();
             renderer->drawString(st.c_str(), false, x + 10, y + 25, 16, renderer->a(0xFFFF));
         }), 75);
 
-        // Controles de reproducción
         list->addItem(new tsl::elm::CategoryHeader("Reproduccion"));
 
         auto itemToggle = new tsl::elm::ListItem("Play / Pausa");
@@ -84,7 +79,6 @@ public:
         });
         list->addItem(itemPrev);
 
-        // Ajustes extra y volumen
         list->addItem(new tsl::elm::CategoryHeader("Opciones y Volumen"));
 
         auto itemVolUp = new tsl::elm::ListItem("Subir volumen (+10%)");
