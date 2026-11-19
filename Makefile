@@ -62,7 +62,7 @@ $(OUTPUT).ovl: $(OUTPUT).nro
 	@cp $(OUTPUT).nro $(OUTPUT).ovl
 
 $(OUTPUT).nro: $(OUTPUT).elf
-	@$(NRO) $< $@
+	@elf2nro $< $@
 
 $(OUTPUT).elf: $(OFILES)
 	@$(CXX) $(LDFLAGS) $(OFILES) $(LIBPATHS) $(LIBS) -o $@
