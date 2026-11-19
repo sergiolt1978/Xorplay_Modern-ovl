@@ -17,6 +17,7 @@ jobs:
 
       - name: Download libtesla
         run: |
+          mkdir -p libs
           git clone https://github.com libs/libtesla
 
       - name: Compile OVL
