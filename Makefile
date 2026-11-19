@@ -16,7 +16,7 @@ CFLAGS      += $(INCLUDE) -D__SWITCH__
 
 CXXFLAGS    := $(CFLAGS) -fno-exceptions -std=gnu++20
 ASFLAGS     := -g $(ARCH)
-LDFLAGS     = -specs=$(DEVKITPRO)/libnx/switch.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
+LDFLAGS     += -specs=$(DEVKITPRO)/libnx/switch.specs -g -Wl,-Map,$(notdir $*.map)
 
 LIBS        := -lnx
 LIBDIRS     := $(LIBNX)
