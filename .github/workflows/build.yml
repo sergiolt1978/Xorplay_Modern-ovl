@@ -22,14 +22,11 @@ jobs:
           path: libs/libtesla
 
       - name: Compile OVL
-        run: |
-          make
-          mkdir -p out/switch/.overlays
-          cp xorplay.ovl out/switch/.overlays/
+        run: make
 
       - name: Upload OVL Artifact
         uses: actions/upload-artifact@v4
         with:
           name: XorPlay-Tesla-Overlay
-          path: out/
+          path: xorplay.ovl
           
