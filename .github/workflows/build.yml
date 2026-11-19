@@ -18,7 +18,9 @@ jobs:
       - name: Download libtesla
         run: |
           mkdir -p libs/libtesla
-          curl -L https://github.com -o tesla.zip
+          U1="https://github.com"
+          U2="/WerWolv/libtesla/zip/refs/heads/master"
+          curl -L "${U1}${U2}" -o tesla.zip
           unzip -q tesla.zip
           cp -r libtesla-master/* libs/libtesla/
 
