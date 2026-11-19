@@ -16,13 +16,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download libtesla
-        run: |
-          mkdir -p libs/libtesla
-          U1="https://github.com"
-          U2="/WerWolv/libtesla/zip/refs/heads/master"
-          curl -L "${U1}${U2}" -o tesla.zip
-          unzip -q tesla.zip
-          cp -r libtesla-master/* libs/libtesla/
+        uses: actions/checkout@v4
+        with:
+          repository: WerWolv/libtesla
+          path: libs/libtesla
 
       - name: Compile OVL
         run: |
