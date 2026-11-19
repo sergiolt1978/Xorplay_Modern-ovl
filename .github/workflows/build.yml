@@ -1,4 +1,4 @@
-name: Build Tesla Overlay (.ovl)
+name: Build XorPlay Tesla Overlay
 
 on:
   push:
@@ -19,11 +19,11 @@ jobs:
         run: |
           git clone https://github.com libs/libtesla
 
-      - name: Compile Overlay
+      - name: Compile OVL
         run: |
           make
           mkdir -p out/switch/.overlays
-          cp *.ovl out/switch/.overlays/ || cp *.nro out/switch/.overlays/xorplay.ovl
+          cp xorplay.ovl out/switch/.overlays/
 
       - name: Upload OVL Artifact
         uses: actions/upload-artifact@v4
