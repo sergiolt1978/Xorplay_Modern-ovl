@@ -4,6 +4,8 @@
 #include <cstring>
 #include <string>
 #include <fstream>
+#include <sstream>
+#include <iomanip>
 
 void sendCommand(const std::string& cmd) {
     FILE* f = fopen("sdmc:/config/xorplay/command.txt", "w");
@@ -33,6 +35,12 @@ std::string readStatus() {
 class XorPlayOverlayGui : public tsl::Gui {
 private:
     float currentVolume = 1.0f;
+
+    std::string formatVolumeCmd(float vol) {
+        std::ostringstream oss;
+        oss << "volume " << std::fixed << std::setprecision(2) << vol;
+        return oss.str();
+    }
 
 public:
     XorPlayOverlayGui() {}
@@ -86,9 +94,7 @@ public:
             if (keys & HidNpadButton_A) {
                 currentVolume += 0.10f;
                 if (currentVolume > 1.0f) currentVolume = 1.0f;
-                char buf[32];
-                snprintf(buf, sizeof(buf), "volume %.2f", currentVolume);
-                sendCommand(buf);
+                sendCommand(formatVolumeCmd(currentVolume));
                 return true;
             }
             return false;
@@ -100,9 +106,7 @@ public:
             if (keys & HidNpadButton_A) {
                 currentVolume -= 0.10f;
                 if (currentVolume < 0.0f) currentVolume = 0.0f;
-                char buf[32];
-                snprintf(buf, sizeof(buf), "volume %.2f", currentVolume);
-                sendCommand(buf);
+                sendCommand(formatVolumeCmd(currentVolume));
                 return true;
             }
             return false;
