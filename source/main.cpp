@@ -18,7 +18,7 @@ void sendCommand(const std::string& cmd) {
 std::string readStatus() {
     std::ifstream file("sdmc:/config/xorplay/status.txt");
     if (!file.is_open()) {
-        return "Sysmodule no detectado";
+        return "Sysmodule no activo";
     }
     std::string line, result;
     int count = 0;
